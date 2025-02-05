@@ -6,12 +6,12 @@ menu_principal = """[Menu Principal] Escolha uma das seguintes opções:
 0 - Sair do programa
 """
 
-menu_autores = """
-[Autores] Escolha uma das seguintes opções:
-1 - Listar todos os autores
-2 - Adicionar novo autor
-3 - Excluir autor
-4 - Ver autor por Id
+menu_categorias = """
+[Categorias] Escolha uma das seguintes opções:
+1 - Listar todas as categorias
+2 - Adicionar nova categoria
+3 - Excluir categoria
+4 - Ver categoria por Id
 0 - Voltar ao menu anterior
 """
 
@@ -24,8 +24,27 @@ menu_editoras = """
 0 - Voltar ao menu anterior
 """
 
+menu_autores = """
+[Autores] Escolha uma das seguintes opções:
+1 - Listar todos os autores
+2 - Adicionar novo autor
+3 - Excluir autor
+4 - Ver autor por Id
+0 - Voltar ao menu anterior
+"""
+
+menu_livros = """
+[Livros] Escolha uma das seguintes opções:
+1 - Listar todos os llivros
+2 - Adicionar novo livro
+3 - Excluir livro
+4 - Ver livro por Id
+0 - Voltar ao menu anterior
+"""
+
 tabela_autores = []
 tabela_editoras = []
+tabela_categorias = []
 
 while True:
     print(menu_principal)
@@ -36,7 +55,49 @@ while True:
     match opcao_principal:
         case '0':
             break  # interrompe o loop do while principal
-        
+     
+        case '1':
+            while True:
+                print(menu_categorias)
+                opcao_categorias = input('Digite a opção: ')
+                match opcao_editoras:
+                    case '0':
+                        break
+                    
+                    case '1':
+                        if tabela_categorias == []:
+                            print('Nenhuma categoria cadastrada.')
+                            input('Pressione ENTER para continuar...')
+                            continue
+                        print('ID | Nome')
+                        for index, categoria in enumerate(tabela_categorias):
+                            print(f"{index} | {categoria['nome']}")
+                            
+                    case '2':
+                        nome_categoria = input('Digite o nome da categoria: ')
+                        nova_categoria = {
+                            'nome': nome_categoria
+                        }
+                        tabela_categorias.append(nova_categoria)
+                        print('Categoria adicionada com sucesso.')
+                        
+                    case '3':
+                        if tabela_categorias == []:
+                            print('Nenhuma categoria cadastrada.')
+                            input('Pressione ENTER para continuar')
+                            continue
+                        
+                        id_categoria = int(input('Digite o ID da categoria que deseja excluir: '))
+                        tabela_categoria.pop(id_categoria)
+                        print('Categoria excluída com sucesso.')
+                        
+                    case '4':
+                        id_categoria = int(input('Digite o ID da categoria que deseja visualizar: '))
+                        categoria = tabela_categorias[id_categoria]
+                        print(f'{id_}')
+                        
+                        
+                            
         case '2':
             while True:
                 print(menu_editoras)
@@ -73,7 +134,7 @@ while True:
                         id = int(input('Digite o ID da editora para buscar: '))
                         editora = tabela_editoras[id]
                         print('ID | Nome | Endereço | Telefone')
-                        print(f"{ID} | {editora['nome']} | {editora['endereço']} | {editora['fone']}")
+                        print(f"{id} | {editora['nome']} | {editora['endereço']} | {editora['fone']}")
                         
                     case _:
                         print('Opção inválida. Tente novamente.')
