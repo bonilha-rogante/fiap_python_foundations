@@ -30,6 +30,7 @@ menu_autores = """
 2 - Adicionar novo autor
 3 - Excluir autor
 4 - Ver autor por Id
+5 - Editar autor
 0 - Voltar ao menu anterior
 """
 
@@ -47,6 +48,12 @@ tabela_editoras = []
 tabela_categorias = []
 tabela_livros = []
 
+def valida_email(email: str) -> str:
+    email = email.lower()
+    if email.find('@') >= 0 and email.endswith('.com'):
+        return True
+    return False
+    
 def gerencia_categoria():
     print(menu_categorias)
     opcao_categorias = input('Digite a opção: ')
@@ -170,7 +177,10 @@ def gerencia_autor():
                     print(f"{index} | {autor['nome']} | {autor['email']} | {autor['fone']} | {autor['biografia']}")         
         case '2':
             nome_autor = input('Digite o nome do autor: ')
-            email_autor = input('Digite o email do autor: ')
+            email_autor = input('Digite o e-mail do autor: ')
+            while not valida_email(email_autor):
+                print('E-mail inválido! Tente novamente.')
+                email_autor = input('Digite o e-mail do autor: ')
             fone_autor = input('Digite o telefone do autor: ')
             bio_autor = input('Digite a biografia do autor: ')
             novo_autor = {
@@ -206,7 +216,29 @@ def gerencia_autor():
                     print('Id | Nome | Email | Telefone | Biografia')
                     print(f"{id} | {autor['nome']} | {autor['email']} | {autor['fone']} | {autor['biografia']}")
                 except:
-                    print(f'ID do autor "{id_autor}" inválido')                        
+                    print(f'ID do autor "{id_autor}" inválido')   
+                    
+        case '5':
+            if tabela_autores == []:
+                print('Nenhum Autor cadastrado.')
+                input('Pressione ENTER para continuar')
+            else:
+                id_autor = input('Digite o ID do autor que deseja editar: ')
+                id_autor = int(id_autor)
+                autor = tabela_autores[id_autor]
+                nome_autor = input(f"Digite o novo nome do autor: ({autor['nome']})")
+                email_autor = input(f"Digite o novo e-mail do autor: ({autor['email']})")
+                fone_autor = input(f"Digite o novo telefone do autor: ({autor['fone']})")
+                bio_autor = input(f"Digite a nova biografia do autor: ({autor['biografia']})")
+
+                novo_autor = {
+                    'nome': nome_autor,
+                    'email': email_autor,
+                    'fone': fone_autor,
+                    'biografia': bio_autor
+                }
+                tabela_autores[id_autor] = novo_autor
+                print('Autor editado com sucesso!')
         case _:
             print('Opção inválida. Tente novamente.')
             
