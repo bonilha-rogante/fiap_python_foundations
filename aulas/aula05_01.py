@@ -28,6 +28,10 @@ except ValueError:
     print(f'ID deve ser somente número inteiro. "{categoria_id}" não é um ID válido')
 except Exception as e:
     print(f'Ocorreu um erro: {e}')
+else: #then
+    print('Não ocorreu nenhum erro/exceção')
+finally:
+    print('Será executado de qualquer forma.')
 # if categorai_id >= 0 and categoria_id < tamanho:
 #     print(tabela_categorias[categoria_id])
 # else:print('ID não encontrado na tabela.')
