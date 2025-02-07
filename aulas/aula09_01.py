@@ -7,14 +7,15 @@ class Aluno:
     
     def __repr__(self): # Exibido em Debugger e arquivos de log | 
         return f'{self.__class__.__name__}("{self.nome}")"'
-        
-d = {
-    'nome': 'João'
-}
 
-print(d)
+print(f'__name__ do módulo {__name__}')
 
+if __name__ == '__main__':      
+    d = {
+        'nome': 'João'
+    }
 
-a = Aluno('Well')
-print(a)
+    print(d)
+    a = Aluno('Well')
+    print(a)
 
