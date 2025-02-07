@@ -1,3 +1,11 @@
+def  valida_email(email: str) -> bool:
+    email = email.lower()
+    
+    if email.find('@') >= 0 and email.endswith('.com'):
+        return True
+    return False
+
+
 class Autor:
     def __init__(self ):
         self.nome = None
@@ -9,8 +17,11 @@ class Autor:
         return self.email
     
     def set_email(self, email): #setter
-        self.email = email    
-    
+        if valida_email(email):
+            self.email = email
+            return
+        raise Exception('E-mail inválido.')
+
         
 print('Início do programa.')
 autor = Autor()
@@ -21,8 +32,13 @@ print(autor.get_email())
 # print(autor.nome)
 # print(autor.email)
 # print(autor)
-print('Fim do programa')
 
 outro_autor = Autor()
 outro_autor.nome = 'Cecília'
-outro_autor.email = "teste@.com"
+try:
+    outro_autor.set_email("teste")
+except Exception as e:
+   print(e) 
+
+
+print(outro_autor.get_email())
