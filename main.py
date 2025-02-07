@@ -53,6 +53,66 @@ def valida_email(email: str) -> str:
     if email.find('@') >= 0 and email.endswith('.com'):
         return True
     return False
+
+
+
+class Autor:
+    id_autor = 1 #atributo de classe
+    
+    __slots__ = ['__id', '__nome', '__email', '__fone', '__biografia']
+    def __init__(self, nome: str, fone: str=None, biografia: str=None):
+        self.id = Autor.id_autor
+        self.nome = nome
+        self.__email = None
+        self.fone = fone
+        self.biografia = biografia
+        
+    @property
+    def id(self):
+        return self.__id
+    
+    @id.setter
+    def id(self, id):
+        self.__id = id
+        Autor.id_autor += 1
+        
+    @property
+    def nome(self):
+        return self.__nome
+    
+    @nome.setter
+    def nome(self, nome: str):
+        self.__nome = nome.title()
+        
+    @property
+    def email(self): #getter
+        return self.__email
+    
+    @email.setter
+    def email(self, email: str): #setter
+        if valida_email(email):
+            self.__email = email.lower()
+            return
+        raise Exception('E-mail inválido.')
+    
+    @property
+    def fone(self):
+        return self.__fone
+    
+    @fone.setter
+    def fone(self, fone):
+        self.__fone = fone
+        
+    @property
+    def biografia(self):
+        return self.__biografia
+
+    @biografia.setter
+    def biografia(self, biografia):
+        self.__biografia = biografia    
+        
+    def __str__(self):
+        pass
     
 def gerencia_categoria():
     print(menu_categorias)
@@ -174,21 +234,25 @@ def gerencia_autor():
             else:
                 print(f'{'ID'.ljust(5)} | {'Nome'.ljust(5)} | {'Email'.ljust(5)} | {'Telefone'.ljust(5)} | {'Biografia'}')
                 for index, autor in enumerate(tabela_autores):
-                    print(f"{index} | {autor['nome']} | {autor['email']} | {autor['fone']} | {autor['biografia']}")         
+                    print(f"{autor.id} | {autor.nome} | {autor.email} | {autor.fone} | {autor.biografia}")         
         case '2':
             nome_autor = input('Digite o nome do autor: ')
-            email_autor = input('Digite o e-mail do autor: ')
-            while not valida_email(email_autor):
-                print('E-mail inválido! Tente novamente.')
-                email_autor = input('Digite o e-mail do autor: ')
+            # while not valida_email(email_autor):
+            #     print('E-mail inválido! Tente novamente.')
+            #     email_autor = input('Digite o e-mail do autor: ')
+                
             fone_autor = input('Digite o telefone do autor: ')
             bio_autor = input('Digite a biografia do autor: ')
-            novo_autor = {
-                'nome': nome_autor,
-                'email': email_autor,
-                'fone': fone_autor,
-                'biografia': bio_autor
-            }
+            novo_autor = Autor(nome_autor, fone_autor, bio_autor)
+            while True:
+                try:
+                    email_autor = input('Digite o e-mail do autor: ')
+                    novo_autor.email = email_autor
+                except Exception as e:
+                    print(e)
+                else: 
+                    break
+                
             tabela_autores.append(novo_autor)
             print('Autor adicionado com sucesso!')
             
@@ -200,10 +264,14 @@ def gerencia_autor():
                 try:
                     id_autor = input('Digite o ID do autor a ser excluido: ')
                     id_autor = int(id_autor)
+                    for index, autor in enumerate(tabela_autores):
+                        if autor.id == id_autor:
+                            break
                     tabela_autores.pop(id_autor)
-                    print('Autor excluído com sucesso!')
                 except:
                     print(f'ID do autor "{id_autor}" inválido')
+                else:
+                    print('Autor excluído com sucesso!')
         
         case '4':
             if tabela_autores == []:
@@ -211,10 +279,14 @@ def gerencia_autor():
                 input('Pressione ENTER para continuar')
             else:
                 try:
-                    id_autor = int(input('Digite o ID do autor para buscar: '))
-                    autor = tabela_autores[id_autor]
+                    id_autor = input('Digite o ID do autor para buscar: ')
+                    id_autor = int(id_autor)
+                    for autor in tabela_autores:
+                        if autor.id == id_autor:
+                            break
+                    
                     print('Id | Nome | Email | Telefone | Biografia')
-                    print(f"{id} | {autor['nome']} | {autor['email']} | {autor['fone']} | {autor['biografia']}")
+                    print(f"{autor.id} | {autor.nome} | {autor.email} | {autor.fone} | {autor.biografia}")               
                 except:
                     print(f'ID do autor "{id_autor}" inválido')   
                     
@@ -225,18 +297,24 @@ def gerencia_autor():
             else:
                 id_autor = input('Digite o ID do autor que deseja editar: ')
                 id_autor = int(id_autor)
-                autor = tabela_autores[id_autor]
-                nome_autor = input(f"Digite o novo nome do autor: ({autor['nome']})")
-                email_autor = input(f"Digite o novo e-mail do autor: ({autor['email']})")
-                fone_autor = input(f"Digite o novo telefone do autor: ({autor['fone']})")
-                bio_autor = input(f"Digite a nova biografia do autor: ({autor['biografia']})")
-
-                novo_autor = {
-                    'nome': nome_autor,
-                    'email': email_autor,
-                    'fone': fone_autor,
-                    'biografia': bio_autor
-                }
+                for index, autor in enumerate(tabela_autores):
+                    if autor.id == id_autor:
+                        break
+                
+                nome_autor = input(f"Digite o novo nome do autor: ({autor.nome})")
+                fone_autor = input(f"Digite o novo telefone do autor: ({autor.fone})")
+                bio_autor = input(f"Digite a nova biografia do autor: ({autor.biografia})")
+                novo_autor = Autor(nome_autor, fone_autor, bio_autor)
+                
+                while True:
+                    try:
+                        email_autor = input(f"Digite o novo e-mail do autor: ({autor.email})")
+                        novo_autor.email = email_autor
+                    except Exception as e:
+                        print(e)
+                    else:
+                        break
+                
                 tabela_autores[id_autor] = novo_autor
                 print('Autor editado com sucesso!')
         case _:
