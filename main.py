@@ -1,3 +1,5 @@
+import itertools
+
 menu_principal = """[Menu Principal] Escolha uma das seguintes opções:
 1 - Categorias
 2 - Editoras
@@ -111,7 +113,10 @@ class Autor:
         self.__biografia = biografia    
         
     def __str__(self):
-        pass
+        return f'{self.id} | {self.nome} | {self.email} | {self.fone} | {self.biografia}'
+    
+    def __repr__(self):
+        return f'{self.__class__.__name__}("{self.nome}"), "{self.fone}", "{self.biografia}'
     
 def gerencia_categoria():
     print(menu_categorias)
@@ -233,7 +238,7 @@ def gerencia_autor():
             else:
                 print(f'{'ID'.ljust(5)} | {'Nome'.ljust(5)} | {'Email'.ljust(5)} | {'Telefone'.ljust(5)} | {'Biografia'}')
                 for index, autor in enumerate(tabela_autores):
-                    print(f"{autor.id} | {autor.nome} | {autor.email} | {autor.fone} | {autor.biografia}")         
+                    print(autor)         
         case '2':
             nome_autor = input('Digite o nome do autor: ')
             # while not valida_email(email_autor):
@@ -285,7 +290,7 @@ def gerencia_autor():
                             break
                     
                     print('Id | Nome | Email | Telefone | Biografia')
-                    print(f"{autor.id} | {autor.nome} | {autor.email} | {autor.fone} | {autor.biografia}")               
+                    print(autor)               
                 except:
                     print(f'ID do autor "{id_autor}" inválido')   
                     
