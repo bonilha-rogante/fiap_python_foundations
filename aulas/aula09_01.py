@@ -6,16 +6,19 @@ class Aluno:
         return f'Nome: {self.nome}'
     
     def __repr__(self): # Exibido em Debugger e arquivos de log | Formato que você deseja visualizar o objeto
-        return f'{self.__class__.__name__}("{self.nome}")"'
+        return f'{self }("{self.nome}")"'
 
 print(f'__name__ do módulo {__name__}')
 
 if __name__ == '__main__':      
     d = {
+        
         'nome': 'João'
     }
 
     print(d)
     a = Aluno('Well')
     print(a)
+
+
 
